@@ -133,6 +133,13 @@ canvas { width: 100%; max-width: 100%; aspect-ratio: 4 / 3; background: var(--sc
 /* Finale */
 .badge { display: grid; place-items: center; gap: 8px; text-align: center; padding-block: 12px; }
 .badge svg { width: 160px; height: 160px; }
+.prize { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; justify-content: center; text-align: center; background: var(--good-soft); border: 3px solid var(--good); border-radius: 20px; padding: 18px; }
+.prize .cone { width: 110px; height: 146px; flex: none; }
+.prize > div { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 6px; }
+.prize-title { font-family: var(--display); font-weight: 800; font-size: clamp(1.5rem, 6vw, 2rem); line-height: 1.15; margin: 0; color: var(--ink); }
+.retry { background: var(--bad-soft); border: 3px dashed var(--bad); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 8px; align-items: center; text-align: center; }
+.retry p { margin: 0; }
+.retry .go { text-decoration: none; margin-top: 6px; }
 .big { font-family: var(--display); font-weight: 800; font-size: clamp(2.2rem, 9vw, 3.4rem); color: var(--iris); margin: 0; line-height: 1; font-variant-numeric: tabular-nums; }
 .parents { font-size: .9rem; color: var(--muted); border-top: 2px dashed var(--line); padding-top: 14px; }
 .parents summary { cursor: pointer; font-weight: 600; color: var(--ink); }
@@ -333,6 +340,20 @@ function vocabBox(id) {
   return box;
 }
 const TOTAL = MISSIONS.reduce((n, m) => n + (m.pairs || m.parts || m.qs).length, 0);
+// The prize only shows with at least 80% of the stars (first-try answers)
+const PASS_STARS = Math.ceil(TOTAL * 0.8);
+const BOOK_URL = 'https://online.flipbuilder.com/xvrhj/ivdy/';
+const ICE_CREAM = `<svg class="cone" viewBox="0 0 120 160" aria-hidden="true">
+  <path d="M30 74 L60 154 L90 74 Z" fill="#e8a65a" stroke="#a8652a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M40 80 L75 130 M55 78 L84 112 M80 80 L45 130 M65 78 L36 104" stroke="#a8652a" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="40" cy="70" r="20" fill="#f6a6c1"/>
+  <circle cx="80" cy="70" r="20" fill="#9be3c9"/>
+  <circle cx="60" cy="46" r="24" fill="#8d5a3b"/>
+  <path d="M44 38 q4 -6 8 0 M62 30 q4 -6 8 0 M66 52 q4 -6 8 0" stroke="#ffd8a8" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="64" cy="18" r="8" fill="#d14545"/>
+  <path d="M66 11 q4 -8 12 -9" stroke="#2b9a57" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="61" cy="15" r="2.5" fill="#ffffff" opacity=".8"/>
+</svg>`;
 
 let mi = 0;
 let stars = 0;
@@ -703,7 +724,8 @@ function myEyesText() {
 function renderEnd() {
   const c = document.createElement('section'); c.className = 'card';
   const pct = stars / TOTAL;
-  const msg = pct >= .9 ? '¡Detective experta!' : pct >= .6 ? '¡Muy buen ojo!' : '¡Caso resuelto!';
+  const passed = stars >= PASS_STARS;
+  const msg = !passed ? '¡Casi, detective!' : pct >= .9 ? '¡Detective experta!' : '¡Muy buen ojo!';
   const lines = myEyesText();
   // Parents report: every question with its answer, marked by how many wrong tries it took
   const keyItems = [];
@@ -740,6 +762,21 @@ function renderEnd() {
       <h2>${msg}</h2>
       <p class="how">Cada estrella es una respuesta correcta al primer intento.</p>
     </div>
+    ${passed ? `
+    <div class="prize pop">
+      ${ICE_CREAM}
+      <div>
+        <div class="m-tag">Tu premio</div>
+        <p class="prize-title">¡Un helado rico con papá y mamá!</p>
+        <p class="how">Lograste ${Math.round(pct * 100)}% de aciertos. ¡Te lo ganaste!</p>
+      </div>
+    </div>` : `
+    <div class="retry">
+      <p class="prize-title">🔒 Hay un premio escondido</p>
+      <p>Para verlo necesitas al menos <b>${PASS_STARS} estrellas</b> (80% de aciertos). Tienes <b>${stars}</b>.</p>
+      <p>Vuelve a leer el libro con calma y haz la prueba otra vez.</p>
+      <a class="go alt" href="${BOOK_URL}" target="_blank" rel="noopener">📖 Releer el libro</a>
+    </div>`}
     <div class="mine">
       <div class="mine-head"><h3 class="h3">My Eyes</h3></div>
       <div class="mine-body">
@@ -752,8 +789,8 @@ function renderEnd() {
       <p class="report-how">✔ = correcta al primer intento. ✗ = se equivocó antes de acertar; muchos errores en una pregunta suelen indicar que probó opciones al azar en vez de buscar en el libro.</p>
       <ol class="key">${keyItems.join('')}</ol>
     </details>`;
-  const { n } = navBar(restart, true, 'Jugar otra vez');
-  n.querySelector('.go').classList.add('alt');
+  const { n } = navBar(restart, true, passed ? 'Jugar otra vez' : 'Volver a intentarlo');
+  if (passed) n.querySelector('.go').classList.add('alt');
   c.appendChild(n);
   blink();
   return c;
