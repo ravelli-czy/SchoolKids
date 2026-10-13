@@ -1,6 +1,6 @@
 # Instrucciones para Claude
 
-Este repo es un sitio estático de un solo archivo (`index.html`). No hay build, framework ni dependencias.
+Este repo es un sitio estático: `index.html` (instrucciones + enlace al libro) y `preguntas.html` (la prueba). No hay build, framework ni dependencias.
 
 ## Tarea: publicar en GitHub + Vercel
 1. `git init`, rama `main`, commit inicial con todos los archivos.
@@ -12,6 +12,6 @@ Este repo es un sitio estático de un solo archivo (`index.html`). No hay build,
 4. Entregar al usuario la URL de producción (`https://eye-detective*.vercel.app`).
 
 ## Reglas
-- No modificar `index.html` salvo que el usuario lo pida.
+- No modificar `preguntas.html` salvo que el usuario lo pida.
 - No agregar frameworks ni pasos de build.
-- Para cambios futuros: editar `index.html`, commit y push; Vercel redeploya solo si el repo está conectado.
+- Para cambios futuros: editar los `.html`, commit y push; Vercel redeploya solo si el repo está conectado.

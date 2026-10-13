@@ -5,7 +5,9 @@ Prueba de comprensión interactiva del libro *Eyes* (Oxford Read and Discover, L
 - 6 misiones + proyecto final "My Eyes" (27 estrellas).
 - Las pistas indican la página del libro donde está la respuesta.
 - Sin audio: todo es lectura.
-- Un solo archivo estático (`index.html`), sin build ni dependencias. Funciona en iPad/Safari.
+- `index.html`: página inicial con instrucciones y el enlace al libro (https://online.flipbuilder.com/xvrhj/ivdy/).
+- `preguntas.html`: la prueba.
+- Sitio estático, sin build ni dependencias. Funciona en iPad/Safari.
 
 ## Probar en local
 Abrir `index.html` en el navegador.

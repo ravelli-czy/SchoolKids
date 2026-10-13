@@ -1,22 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Eye Detective: prueba de comprensión del libro Eyes (Oxford Read and Discover 1).">
+<meta name="description" content="Eye Detective: instrucciones antes de la prueba del libro Eyes (Oxford Read and Discover 1).">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 90'%3E%3Cpath d='M6 45 Q70 -8 134 45 Q70 98 6 45Z' fill='%23fffdf7' stroke='%2312302e' stroke-width='6'/%3E%3Ccircle cx='70' cy='45' r='26' fill='%23f2a91c'/%3E%3Ccircle cx='70' cy='45' r='11' fill='%2312302e'/%3E%3C/svg%3E">
-<style>
-:root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
-body { margin: 0; font: 14px system-ui, sans-serif; }
-img { max-width: 100%; }
-[hidden] { display: none !important; }
-</style>
 <title>Eye Detective</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gluten:wght@600;800&family=Lexend:wght@400;600&display=swap">
 <style>
-/* Layout: one mission card at a time under a big watching eye; progress as a row of pupils */
+/* Same palette and type as preguntas.html so both pages feel like one app */
 :root {
   --bg: #e6f2ef;
   --paper: #ffffff;
@@ -27,148 +21,72 @@ img { max-width: 100%; }
   --sea-soft: #d3ecea;
   --amber: #f2a91c;
   --iris: #e0791f;
-  --good: #2b9a57;
-  --good-soft: #d8f1e2;
-  --bad: #d14545;
-  --bad-soft: #fbe0de;
   --sclera: #fffdf7;
-  --lid: #c7b29a;
   --display: "Gluten", "Comic Sans MS", "Chalkboard SE", cursive;
   --body: "Lexend", "Trebuchet MS", system-ui, sans-serif;
+  color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0e1d1c; --paper: #172b29; --ink: #e8f3f1; --muted: #9fbab6; --line: #2a4643;
-    --sea: #3cc2bf; --sea-soft: #1d3b39; --amber: #f5b638; --iris: #f08a32;
-    --good: #4fcf83; --good-soft: #17382a; --bad: #f07070; --bad-soft: #3d1f1f; --sclera: #f3efe4; --lid: #8a7560;
+    --sea: #3cc2bf; --sea-soft: #1d3b39; --amber: #f5b638; --iris: #f08a32; --sclera: #f3efe4;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0e1d1c; --paper: #172b29; --ink: #e8f3f1; --muted: #9fbab6; --line: #2a4643;
-  --sea: #3cc2bf; --sea-soft: #1d3b39; --amber: #f5b638; --iris: #f08a32;
-  --good: #4fcf83; --good-soft: #17382a; --bad: #f07070; --bad-soft: #3d1f1f; --sclera: #f3efe4; --lid: #8a7560;
+  --sea: #3cc2bf; --sea-soft: #1d3b39; --amber: #f5b638; --iris: #f08a32; --sclera: #f3efe4;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
 body {
-  background: var(--bg); color: var(--ink); font-family: var(--body);
-  font-size: 1.05rem; line-height: 1.5; padding-inline: 16px; padding-block: 16px 48px;
+  margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body);
+  font-size: 1.1rem; line-height: 1.55;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(48px, env(safe-area-inset-bottom));
 }
-.wrap { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+.wrap { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
 
-header { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-.eye { width: 112px; height: 72px; flex: none; }
+header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding-top: 12px; }
+.eye { width: 150px; height: 96px; }
 .eye .lid { transform-origin: 50% 50%; transition: transform .12s ease-in; }
-.eye.blink .lid { transform: scaleY(1); }
-.brand { min-width: 0; flex: 1; }
-h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2rem, 7vw, 3rem); line-height: 1; margin: 0; color: var(--sea); text-wrap: balance; }
-.sub { margin: 4px 0 0; color: var(--muted); font-size: .95rem; }
-.stars { font-family: var(--display); font-weight: 800; font-size: 1.5rem; color: var(--iris); display: flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
-.stars svg { width: 28px; height: 28px; }
+h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2.4rem, 9vw, 3.4rem); line-height: 1; margin: 0; color: var(--sea); }
+.sub { margin: 0; color: var(--muted); font-size: 1rem; }
 
-.track { display: flex; gap: 10px; align-items: center; }
-.dot { width: 22px; height: 22px; border-radius: 50%; background: var(--sclera); border: 3px solid var(--line); display: grid; place-items: center; }
-.dot::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--line); transition: all .3s; }
-.dot.on { border-color: var(--iris); }
-.dot.on::after { background: var(--ink); width: 10px; height: 10px; box-shadow: 0 0 0 3px var(--amber); }
-.dot.done { border-color: var(--good); }
-.dot.done::after { background: var(--good); }
-.track-label { color: var(--muted); font-size: .9rem; margin-left: 6px; }
-
-.card { background: var(--paper); border-radius: 22px; padding: 22px; border: 2px solid var(--line); display: flex; flex-direction: column; gap: 18px; }
-.m-tag { font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--sea); font-weight: 600; }
-h2 { font-family: var(--display); font-weight: 800; font-size: clamp(1.6rem, 5vw, 2.1rem); margin: 0; line-height: 1.1; text-wrap: balance; }
-.how { margin: 0; color: var(--muted); }
-
-button { font: inherit; color: inherit; cursor: pointer; }
-button:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
-
-/* Matching */
-.match { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
-.tile { background: var(--bg); border: 2px solid var(--line); border-radius: 14px; padding: 12px; text-align: left; min-height: 56px; transition: transform .15s, background .15s, border-color .15s; }
-.tile.animal { font-family: var(--display); font-weight: 600; font-size: 1.25rem; }
-.tile.sel { border-color: var(--iris); background: var(--paper); box-shadow: 0 0 0 3px var(--amber) inset; }
-.tile.ok { border-color: var(--good); background: var(--good-soft); cursor: default; }
-.tile.nope { animation: shake .35s; border-color: var(--bad); background: var(--bad-soft); }
-.tile .pair { display: block; font-family: var(--body); font-size: .8rem; color: var(--good); font-weight: 600; }
-
-/* Questions */
-.qs { display: flex; flex-direction: column; gap: 14px; }
-.q { border: 2px solid var(--line); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 10px; transition: border-color .2s, background .2s; }
-.q.ok { border-color: var(--good); background: var(--good-soft); }
-.q-top { display: flex; gap: 10px; align-items: flex-start; }
-.q-text { margin: 0; font-size: 1.15rem; flex: 1; min-width: 0; }
-.q-num { font-family: var(--display); font-weight: 800; color: var(--iris); font-size: 1.3rem; line-height: 1.2; flex: none; }
-.say { flex: none; width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--line); background: var(--paper); display: grid; place-items: center; }
-.say svg { width: 18px; height: 18px; }
-.opts { display: flex; flex-wrap: wrap; gap: 10px; }
-.opt { border: 2px solid var(--line); background: var(--paper); border-radius: 999px; padding: 8px 18px; font-weight: 600; min-height: 44px; transition: transform .15s; }
-.opt:hover { transform: translateY(-2px); border-color: var(--sea); }
-.opt.ok { background: var(--good); border-color: var(--good); color: var(--paper); }
-.opt.nope { animation: shake .35s; border-color: var(--bad); color: var(--bad); }
-.opt:disabled { cursor: default; transform: none; }
-.hint { margin: 0; font-size: .9rem; color: var(--bad); }
-.hint b { color: var(--ink); }
-.win { margin: 0; font-size: .9rem; color: var(--good); font-weight: 600; }
-
-/* Drawing */
-.pad { display: flex; flex-direction: column; gap: 10px; }
-canvas { width: 100%; max-width: 100%; aspect-ratio: 4 / 3; background: var(--sclera); border: 2px dashed var(--line); border-radius: 16px; touch-action: none; display: block; }
-.tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.swatch { width: 40px; height: 40px; border-radius: 50%; border: 3px solid var(--paper); box-shadow: 0 0 0 2px var(--line); }
-.swatch.on { box-shadow: 0 0 0 3px var(--ink); }
-.tool { border: 2px solid var(--line); background: var(--paper); border-radius: 999px; padding: 6px 14px; min-height: 40px; }
-
-.nav { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
-.go { background: var(--sea); color: var(--paper); border: 0; border-radius: 999px; padding: 12px 26px; font-family: var(--display); font-weight: 800; font-size: 1.25rem; min-height: 50px; }
-.go:disabled { opacity: .4; cursor: not-allowed; }
-.go.alt { background: transparent; color: var(--sea); border: 2px solid var(--sea); }
-
-/* Finale */
-.badge { display: grid; place-items: center; gap: 8px; text-align: center; padding-block: 12px; }
-.badge svg { width: 160px; height: 160px; }
-.big { font-family: var(--display); font-weight: 800; font-size: clamp(2.2rem, 9vw, 3.4rem); color: var(--iris); margin: 0; line-height: 1; font-variant-numeric: tabular-nums; }
-.parents { font-size: .9rem; color: var(--muted); border-top: 2px dashed var(--line); padding-top: 14px; }
-.parents summary { cursor: pointer; font-weight: 600; color: var(--ink); }
-.parents ol { margin: 8px 0 0; padding-left: 22px; columns: 2; column-gap: 28px; }
-
-.opt.sel { border-color: var(--iris); box-shadow: 0 0 0 3px var(--amber) inset; }
-.opt.pickable[aria-pressed="true"] { background: var(--sea); border-color: var(--sea); color: var(--paper); }
-.diagram svg { width: 100%; max-width: 100%; height: auto; display: block; }
-.spot { cursor: pointer; outline: none; }
-.spot circle { fill: var(--paper); stroke: var(--iris); transition: fill .2s; }
-.spot text { font-family: var(--display); font-weight: 800; font-size: 19px; fill: var(--ink); pointer-events: none; }
-.spot:hover circle, .spot:focus-visible circle { fill: var(--amber); }
-.spot.ok circle { fill: var(--good); stroke: var(--good); }
-.spot.ok text { fill: #ffffff; }
-.spot.nope circle { stroke: var(--bad); fill: var(--bad-soft); }
-.h3 { font-family: var(--display); font-weight: 800; font-size: 1.5rem; margin: 0 0 4px; }
-.mine { border: 2px solid var(--line); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--bg); }
-.mine-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.mine-body { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
-.mine-body img { width: 180px; max-width: 100%; border-radius: 12px; border: 2px solid var(--line); background: var(--sclera); }
-.mine-body p { margin: 0; flex: 1; min-width: 200px; font-size: 1.15rem; line-height: 1.7; }
-.parents .key { columns: 1; }
-.parents .key > li { margin-top: 8px; }
-.parents .key ul { margin: 4px 0 0; padding-left: 18px; }
-
-.pop { animation: pop .4s; }
-@keyframes shake { 0%,100% { transform: translateX(0) } 25% { transform: translateX(-6px) } 75% { transform: translateX(6px) } }
-@keyframes pop { 0% { transform: scale(1) } 50% { transform: scale(1.25) } 100% { transform: scale(1) } }
-@media (max-width: 480px) {
-  .match { gap: 8px; }
-  .tile { padding: 10px; font-size: .95rem; }
-  .tile.animal { font-size: 1.05rem; }
-  .parents ol { columns: 1; }
-  .eye { width: 84px; height: 54px; }
+.card { background: var(--paper); border: 2px solid var(--line); border-radius: 22px; padding: 22px; display: flex; flex-direction: column; gap: 18px; }
+h2 { font-family: var(--display); font-weight: 800; font-size: clamp(1.6rem, 6vw, 2rem); margin: 0; line-height: 1.1; }
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.step { display: flex; gap: 14px; align-items: flex-start; background: var(--bg); border: 2px solid var(--line); border-radius: 16px; padding: 14px; }
+.num {
+  flex: none; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--amber); border: 4px solid var(--iris); color: #12302e;
+  font-family: var(--display); font-weight: 800; font-size: 1.4rem; line-height: 1;
 }
+.step p { margin: 0; font-size: 1.2rem; padding-top: 6px; }
+.step b { color: var(--sea); }
+.step .body { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.book { color: var(--sea); font-weight: 600; text-underline-offset: 3px; }
+.open {
+  align-self: flex-start; text-decoration: none; color: var(--sea); background: var(--paper);
+  border: 2px solid var(--sea); border-radius: 999px; padding: 8px 18px; font-weight: 600; min-height: 44px;
+  display: inline-block; line-height: 24px;
+}
+.open:hover { background: var(--sea-soft); }
+.open:focus-visible, .book:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+
+.go {
+  display: block; text-align: center; text-decoration: none;
+  background: var(--sea); color: var(--paper); border-radius: 999px; padding: 14px 26px;
+  font-family: var(--display); font-weight: 800; font-size: 1.35rem; min-height: 54px;
+  transition: transform .15s;
+}
+.go:hover { transform: translateY(-2px); }
+.go:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+.note { margin: 0; text-align: center; color: var(--muted); font-size: .95rem; }
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+  *, *::before, *::after { transition: none !important; }
 }
 </style>
-
 </head>
 <body>
 <div class="wrap">
@@ -180,513 +98,53 @@ canvas { width: 100%; max-width: 100%; aspect-ratio: 4 / 3; background: var(--sc
         <g id="iris">
           <circle cx="70" cy="45" r="26" style="fill:var(--amber)"/>
           <circle cx="70" cy="45" r="26" fill="none" stroke-width="6" style="stroke:var(--iris)"/>
-          <circle id="pupil" cx="70" cy="45" r="11" fill="#12302e" style="transition: r .3s"/>
+          <circle cx="70" cy="45" r="11" fill="#12302e"/>
           <circle cx="78" cy="37" r="4" fill="#ffffff"/>
         </g>
         <rect class="lid" x="0" y="0" width="140" height="90" style="fill:var(--sea);transform: scaleY(0)"/>
       </g>
     </svg>
-    <div class="brand">
-      <h1>Eye Detective</h1>
-      <p class="sub">Basado en <i>Eyes</i> · Oxford Read and Discover 1</p>
-    </div>
-    <div class="stars" aria-live="polite">
-      <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7L12 17.3 5.8 21l1.6-7L2 9.2l7.1-.6z" stroke-width="1.5" stroke-linejoin="round" style="fill:var(--amber);stroke:var(--iris)"/></svg>
-      <span id="starCount">0</span><span id="starTotal" style="color:var(--muted);font-size:1rem">/ 27</span>
-    </div>
+    <h1>Eye Detective</h1>
+    <p class="sub">Basado en <i>Eyes</i> · Oxford Read and Discover 1</p>
   </header>
 
-  <div class="track" id="track" aria-label="Progreso"></div>
-
-  <main id="stage"></main>
+  <section class="card">
+    <h2>Antes de empezar</h2>
+    <ol class="steps">
+      <li class="step">
+        <span class="num">1</span>
+        <div class="body">
+        <p>Lee <a class="book" href="https://online.flipbuilder.com/xvrhj/ivdy/" target="_blank" rel="noopener">este libro</a> <b>lentamente</b>. Son pocos textos, así que <b>observa bien las imágenes</b>.</p>
+        <a class="open" href="https://online.flipbuilder.com/xvrhj/ivdy/" target="_blank" rel="noopener">📖 Abrir el libro <i>Eyes</i></a>
+        </div>
+      </li>
+      <li class="step">
+        <span class="num">2</span>
+        <p>Una vez que termines, <b>avanza acá</b> para responder a las preguntas.</p>
+      </li>
+    </ol>
+    <a class="go" href="preguntas.html">Ya leí el libro, ¡a las preguntas! →</a>
+    <p class="note">Si te equivocas, la pista te dirá en qué página buscar.</p>
+  </section>
 </div>
 
 <script>
-const MISSIONS = [
-  { id: 'match', title: 'Animal superpowers',
-    how: 'Toca un animal y luego su superpoder.',
-    pairs: [
-      { a: 'Gecko', p: 'It sees well at night.', page: 4 },
-      { a: 'Stalk-eyed fly', p: 'Its eyes are on long stalks.', page: 11 },
-      { a: 'Flatfish', p: 'Two eyes on one side of its body.', page: 13 },
-      { a: 'Flashlight fish', p: 'It has lights under its eyes.', page: 15 },
-    ] },
-  { id: 'parts', title: 'Parts of an eye',
-    how: 'Toca una palabra y luego el número correcto en el ojo.',
-    page: 6,
-    parts: ['eyelashes', 'eyelid', 'eyeball', 'pupil', 'tears'] },
-  { id: 'tf', title: 'True or false?',
-    how: 'Lee la frase y elige.',
-    qs: [
-      { t: 'Fish close their eyes.', o: ['True', 'False'], a: 1, page: 13 },
-      { t: 'Camels have long eyelashes. The sand doesn’t go in their eyes.', o: ['True', 'False'], a: 0, page: 18 },
-      { t: 'Some spiders have eight eyes.', o: ['True', 'False'], a: 0, page: 16 },
-      { t: 'People cry tears when they are sad.', o: ['True', 'False'], a: 0, page: 7 },
-    ] },
-  { id: 'pick', title: 'Pick the right word',
-    how: 'Elige la palabra que completa la frase.',
-    qs: [
-      { t: 'When there’s no light, the pupil is ___.', o: ['little', 'big'], a: 1, page: 7 },
-      { t: 'The hawk has eyes at the ___ of its head.', o: ['front', 'sides'], a: 0, page: 8 },
-      { t: 'The hammerhead shark has eyes at the ___ of its head.', o: ['front', 'sides'], a: 1, page: 10 },
-      { t: 'The meerkat has black fur around its eyes. It’s very ___ in the desert.', o: ['sunny', 'dark'], a: 0, page: 19 },
-    ] },
-  { id: 'animals', title: 'More amazing animals',
-    how: 'Siete animales más del libro. ¡Tú puedes!',
-    qs: [
-      { t: 'The crab has eyes on the ___ of its body.', o: ['top', 'bottom'], a: 0, page: 5 },
-      { t: 'The seal lives on land and in ___.', o: ['trees', 'water'], a: 1, page: 12 },
-      { t: 'The seal hunts ___ to eat.', o: ['insects', 'fish'], a: 1, page: 12 },
-      { t: 'The lemur has big eyes with big ___.', o: ['pupils', 'eyelashes'], a: 0, page: 14 },
-      { t: 'The chameleon ___ see all around.', o: ['can', 'can’t'], a: 0, page: 11 },
-      { t: 'Each dragonfly eye is ___ of little eyes together.', o: ['six', 'thousands'], a: 1, page: 17 },
-      { t: 'The scallop can have more than ___ little eyes!', o: ['5', '50', '500'], a: 1, page: 16 },
-    ] },
-  { id: 'protect', title: 'How do they protect their eyes?',
-    how: 'Une a cada uno con lo que protege sus ojos.',
-    left: 'Primero toca uno de la izquierda.',
-    pairs: [
-      { a: 'People', p: 'Sunglasses', page: 19 },
-      { a: 'Meerkats', p: 'Black fur around the eyes', page: 19 },
-      { a: 'Camels', p: 'Long eyelashes', page: 18 },
-    ] },
-];
-const TOTAL = MISSIONS.reduce((n, m) => n + (m.pairs || m.parts || m.qs).length, 0);
-
-let mi = 0;
-let stars = 0;
-const firstTry = {};
-const solved = {};
-let me = {};
-
-const $ = s => document.querySelector(s);
-const stage = $('#stage');
-const pupil = $('#pupil');
-const eyeEl = $('#eye');
-const irisG = $('#iris');
-$('#starTotal').textContent = '/ ' + TOTAL;
-
-/* ---- Eye mascot ---- */
-function lookAt(x, y) {
+/* Eye follows the pointer and blinks now and then, like on the quiz page */
+const eyeEl = document.getElementById('eye');
+const irisG = document.getElementById('iris');
+window.addEventListener('pointermove', e => {
   const r = eyeEl.getBoundingClientRect();
-  const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-  const dx = x - cx, dy = y - cy;
-  const d = Math.hypot(dx, dy) || 1;
-  const k = Math.min(1, d / 300);
+  const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+  const d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 300);
   irisG.setAttribute('transform', `translate(${(dx / d) * 22 * k} ${(dy / d) * 12 * k})`);
-}
-window.addEventListener('pointermove', e => lookAt(e.clientX, e.clientY));
-function blink() {
-  const lid = eyeEl.querySelector('.lid');
-  lid.style.transform = 'scaleY(1)';
-  setTimeout(() => { lid.style.transform = 'scaleY(0)'; }, 140);
-}
-function pupilMood(r) {
-  pupil.setAttribute('r', r);
-  setTimeout(() => pupil.setAttribute('r', 11), 700);
-}
-setInterval(() => { if (Math.random() < .5) blink(); }, 3500);
-
-function speak() {}
-
-/* ---- Scoring ---- */
-function popEl(el) { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); }
-function award(key, el) {
-  if (solved[key]) return;
-  solved[key] = true;
-  if (firstTry[key] !== false) {
-    stars++;
-    $('#starCount').textContent = stars;
-    popEl($('#starCount').parentElement);
+});
+setInterval(() => {
+  if (Math.random() < .5) {
+    const lid = eyeEl.querySelector('.lid');
+    lid.style.transform = 'scaleY(1)';
+    setTimeout(() => { lid.style.transform = 'scaleY(0)'; }, 140);
   }
-  blink(); pupilMood(15);
-  if (el) popEl(el);
-}
-function miss(key) { firstTry[key] = false; pupilMood(5); }
-function shake(el) { el.classList.remove('nope'); void el.offsetWidth; el.classList.add('nope'); }
-
-/* ---- Track ---- */
-function drawTrack() {
-  const t = $('#track');
-  const total = MISSIONS.length + 1;
-  t.innerHTML = '';
-  for (let i = 0; i < total; i++) {
-    const d = document.createElement('span');
-    d.className = 'dot' + (i < mi ? ' done' : i === mi ? ' on' : '');
-    t.appendChild(d);
-  }
-  const l = document.createElement('span');
-  l.className = 'track-label';
-  l.textContent = mi < MISSIONS.length ? `Misión ${mi + 1} de ${MISSIONS.length}` : mi === MISSIONS.length ? 'Proyecto final' : '¡Caso cerrado!';
-  t.appendChild(l);
-}
-
-function shell(m) {
-  const c = document.createElement('section');
-  c.className = 'card';
-  c.innerHTML = `<div><div class="m-tag">${m.tag}</div><h2>${m.title}</h2></div><p class="how">${m.how}</p>`;
-  return c;
-}
-function navBar(onNext, ready, label) {
-  const n = document.createElement('div');
-  n.className = 'nav';
-  const b = document.createElement('button');
-  b.className = 'go';
-  b.textContent = label || (mi === MISSIONS.length - 1 ? '¡Al proyecto! →' : 'Siguiente →');
-  b.disabled = !ready;
-  b.addEventListener('click', onNext);
-  n.appendChild(b);
-  return { n, b };
-}
-
-/* ---- Matching ---- */
-function renderMatch(m) {
-  const c = shell(m);
-  const grid = document.createElement('div'); grid.className = 'match';
-  const left = document.createElement('div'); left.className = 'col';
-  const right = document.createElement('div'); right.className = 'col';
-  const opts = m.pairs.map((p, i) => ({ ...p, i })).sort(() => Math.random() - .5);
-  let selA = null;
-  const hint = document.createElement('p'); hint.className = 'hint'; hint.hidden = true;
-  const { n, b } = navBar(next, false);
-
-  m.pairs.forEach((p, i) => {
-    const t = document.createElement('button');
-    t.className = 'tile animal'; t.textContent = p.a; t.dataset.i = i;
-    t.addEventListener('click', () => {
-      if (t.classList.contains('ok')) return;
-      left.querySelectorAll('.tile').forEach(x => x.classList.remove('sel'));
-      t.classList.add('sel'); selA = i;
-    });
-    left.appendChild(t);
-  });
-  opts.forEach(p => {
-    const t = document.createElement('button');
-    t.className = 'tile'; t.textContent = p.p;
-    t.addEventListener('click', () => {
-      if (t.classList.contains('ok')) return;
-      if (selA === null) { hint.hidden = false; hint.textContent = m.left || 'Primero toca un animal de la izquierda.'; return; }
-      const key = m.id + selA;
-      const aBtn = left.querySelector(`[data-i="${selA}"]`);
-      if (p.i === selA) {
-        aBtn.classList.remove('sel'); aBtn.classList.add('ok');
-        t.classList.add('ok'); t.innerHTML = `${p.p}<span class="pair">✔ ${p.a}</span>`;
-        award(key, t); selA = null; hint.hidden = true;
-        if (left.querySelectorAll('.ok').length === m.pairs.length) b.disabled = false;
-      } else {
-        miss(key); shake(t);
-        hint.hidden = false;
-        hint.innerHTML = `Casi. Pista: busca <b>${m.pairs[selA].a}</b> en la página <b>${m.pairs[selA].page}</b> del libro.`;
-      }
-    });
-    right.appendChild(t);
-  });
-  grid.append(left, right);
-  c.append(grid, hint, n);
-  return c;
-}
-
-/* ---- Parts of an eye ---- */
-function eyeDiagram() {
-  const q = t => ({ x: (1 - t) ** 2 * 60 + 2 * t * (1 - t) * 180 + t * t * 300, y: (1 - t) ** 2 * 120 + 2 * t * (1 - t) * 36 + t * t * 120 });
-  let lashes = '';
-  for (let t = .14; t <= .87; t += .06) {
-    const p = q(t), ang = -Math.PI / 2 + (t - .5) * 1.6;
-    lashes += `<line x1="${p.x.toFixed(1)}" y1="${p.y.toFixed(1)}" x2="${(p.x + Math.cos(ang) * 22).toFixed(1)}" y2="${(p.y + Math.sin(ang) * 22).toFixed(1)}"/>`;
-  }
-  // part order: eyelashes, eyelid, eyeball, pupil, tears  -> markers numbered by shuffled order
-  const spots = {
-    eyelashes: { m: [82, 40], to: [112, 66] },
-    eyelid: { m: [284, 34], to: [246, 64] },
-    eyeball: { m: [318, 168], to: [262, 128] },
-    pupil: { m: [196, 206], to: [184, 128] },
-    tears: { m: [36, 196], to: [66, 158] },
-  };
-  return { spots, svg: `
-    <rect x="0" y="0" width="360" height="230" rx="18" style="fill:var(--sea-soft)"/>
-    <path d="M50 118 Q180 -10 310 118 Q180 34 50 118Z" style="fill:var(--lid)"/>
-    <path d="M60 120 Q180 36 300 120 Q180 204 60 120Z" stroke-width="4" style="fill:var(--sclera);stroke:var(--ink)"/>
-    <circle cx="180" cy="120" r="42" stroke-width="6" style="fill:var(--amber);stroke:var(--iris)"/>
-    <circle cx="180" cy="120" r="17" fill="#12302e"/>
-    <circle cx="192" cy="108" r="6" fill="#ffffff"/>
-    <g stroke-width="4" stroke-linecap="round" style="stroke:var(--ink)">${lashes}</g>
-    <path d="M66 140 C58 152 56 160 62 166 C70 172 78 164 74 154 C72 148 68 144 66 140Z" style="fill:var(--sea)"/>
-  ` };
-}
-function renderParts(m) {
-  const c = shell(m);
-  const { spots, svg } = eyeDiagram();
-  const order = m.parts.slice().sort(() => Math.random() - .5);   // number -> part
-  const chips = document.createElement('div'); chips.className = 'opts';
-  const wrap = document.createElement('div'); wrap.className = 'diagram';
-  let marks = '';
-  order.forEach((part, k) => {
-    const s = spots[part];
-    marks += `<line x1="${s.m[0]}" y1="${s.m[1]}" x2="${s.to[0]}" y2="${s.to[1]}" stroke-width="3" stroke-dasharray="2 5" stroke-linecap="round" style="stroke:var(--ink)"/>
-      <g class="spot" data-part="${part}" tabindex="0" role="button" aria-label="Número ${k + 1}">
-        <circle cx="${s.m[0]}" cy="${s.m[1]}" r="17" stroke-width="3"/>
-        <text x="${s.m[0]}" y="${s.m[1] + 6}" text-anchor="middle">${k + 1}</text>
-      </g>`;
-  });
-  wrap.innerHTML = `<svg viewBox="0 0 360 230" role="img" aria-label="Dibujo de un ojo con cinco números">${svg}${marks}</svg>`;
-  const hint = document.createElement('p'); hint.className = 'hint'; hint.hidden = true;
-  const { n, b } = navBar(next, false);
-  let sel = null, done = 0;
-  m.parts.forEach(part => {
-    const ch = document.createElement('button');
-    ch.className = 'opt'; ch.textContent = part; ch.dataset.part = part;
-    ch.addEventListener('click', () => {
-      if (ch.disabled) return;
-      chips.querySelectorAll('.opt').forEach(x => x.classList.remove('sel'));
-      ch.classList.add('sel'); sel = part; hint.hidden = true;
-    });
-    chips.appendChild(ch);
-  });
-  wrap.querySelectorAll('.spot').forEach(g => {
-    const act = () => {
-      if (g.classList.contains('ok')) return;
-      if (!sel) { hint.hidden = false; hint.textContent = 'Primero toca una palabra de arriba.'; return; }
-      const key = 'parts' + sel;
-      if (g.dataset.part === sel) {
-        g.classList.add('ok');
-        g.querySelector('text').textContent = '✔';
-        const ch = chips.querySelector(`[data-part="${sel}"]`);
-        ch.classList.remove('sel'); ch.classList.add('ok'); ch.disabled = true;
-        award(key, ch); sel = null; hint.hidden = true;
-        done++; if (done === m.parts.length) b.disabled = false;
-      } else {
-        miss(key); shake(g);
-        hint.hidden = false;
-        hint.innerHTML = `Casi. Mira la foto del ojo del elefante en la página <b>${m.page}</b>.`;
-      }
-    };
-    g.addEventListener('click', act);
-    g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); act(); } });
-  });
-  c.append(chips, wrap, hint, n);
-  return c;
-}
-
-/* ---- Multiple choice ---- */
-function renderQs(m) {
-  const c = shell(m);
-  const list = document.createElement('div'); list.className = 'qs';
-  const { n, b } = navBar(next, false);
-  let done = 0;
-  m.qs.forEach((q, qi) => {
-    const key = m.id + qi;
-    const box = document.createElement('div'); box.className = 'q';
-    box.innerHTML = `<div class="q-top"><span class="q-num">${qi + 1}</span><p class="q-text">${q.t.replace('___', '<b>____</b>')}</p></div>`;
-    const opts = document.createElement('div'); opts.className = 'opts';
-    const fb = document.createElement('p'); fb.className = 'hint'; fb.hidden = true;
-    q.o.forEach((o, oi) => {
-      const ob = document.createElement('button');
-      ob.className = 'opt'; ob.textContent = o;
-      ob.addEventListener('click', () => {
-        if (oi === q.a) {
-          ob.classList.add('ok'); box.classList.add('ok');
-          opts.querySelectorAll('.opt').forEach(x => x.disabled = true);
-          fb.className = 'win'; fb.hidden = false;
-          fb.textContent = firstTry[key] === false ? '¡Ahí está! Lo encontraste.' : '¡Bien visto, detective!';
-          award(key, box);
-          done++; if (done === m.qs.length) b.disabled = false;
-        } else {
-          miss(key); shake(ob);
-          fb.className = 'hint'; fb.hidden = false;
-          fb.innerHTML = `Mmm, no. Mira la página <b>${q.page}</b> y vuelve a intentar.`;
-        }
-      });
-      opts.appendChild(ob);
-    });
-    box.append(opts, fb);
-    list.appendChild(box);
-  });
-  c.append(list, n);
-  return c;
-}
-
-/* ---- Project: My Eyes ---- */
-const SURVEY = [
-  { k: 'n', t: 'How many eyes do you have?', o: ['1', '2', '3'] },
-  { k: 'color', t: 'What color are your eyes?', o: ['brown', 'black', 'blue', 'green', 'gray'] },
-  { k: 'size', t: 'Are your eyes big or little?', o: ['big', 'little'] },
-  { k: 'where', t: 'Are your eyes at the front or at the sides?', o: ['front', 'sides'] },
-  { k: 'dark', t: 'Can you see in the dark?', o: ['yes', 'a little', 'no'] },
-  { k: 'protect', t: 'What protects your eyes?', o: ['eyelids', 'eyelashes', 'tears', 'sunglasses'], multi: true },
-];
-function renderProject() {
-  me = { protect: [] };
-  const c = shell({ tag: 'Proyecto', title: 'My Eyes',
-    how: 'Mírate en un espejo. Responde sobre tus propios ojos (aquí no hay respuestas malas) y después dibuja tu ojo.' });
-  const list = document.createElement('div'); list.className = 'qs';
-  let pad;
-  const { n, b } = navBar(() => { me.img = pad.image(); next(); }, false, 'Terminé ✔');
-  let drew = false;
-  const check = () => { b.disabled = !(drew && SURVEY.every(s => s.multi ? me[s.k].length : me[s.k])); };
-  SURVEY.forEach((s, si) => {
-    const box = document.createElement('div'); box.className = 'q';
-    box.innerHTML = `<div class="q-top"><span class="q-num">${si + 1}</span><p class="q-text">${s.t}</p></div>`;
-    const opts = document.createElement('div'); opts.className = 'opts';
-    const fb = document.createElement('p'); fb.className = 'win'; fb.hidden = true;
-    s.o.forEach(o => {
-      const ob = document.createElement('button');
-      ob.className = 'opt pickable'; ob.textContent = o;
-      ob.setAttribute('aria-pressed', 'false');
-      ob.addEventListener('click', () => {
-        if (s.multi) {
-          const on = ob.getAttribute('aria-pressed') !== 'true';
-          ob.setAttribute('aria-pressed', on);
-          me.protect = on ? [...me.protect, o] : me.protect.filter(x => x !== o);
-        } else {
-          opts.querySelectorAll('.opt').forEach(x => x.setAttribute('aria-pressed', 'false'));
-          ob.setAttribute('aria-pressed', 'true');
-          me[s.k] = o;
-        }
-        fb.hidden = true;
-        if (s.k === 'n' && o !== '2') { fb.hidden = false; fb.className = 'hint'; fb.textContent = '¿Seguro? ¡Cuéntalos en el espejo!'; }
-        if (s.k === 'where' && o === 'front') { fb.hidden = false; fb.className = 'win'; fb.textContent = 'Like the hawk and the monkey! (página 8)'; }
-        if (s.k === 'where' && o === 'sides') { fb.hidden = false; fb.className = 'hint'; fb.textContent = 'Mmm, mírate bien en el espejo. ¿Como la rana?'; }
-        blink(); check();
-      });
-      opts.appendChild(ob);
-    });
-    box.append(opts, fb);
-    list.appendChild(box);
-  });
-  const sub = document.createElement('div');
-  sub.innerHTML = `<h3 class="h3">Draw your eye</h3><p class="how">Dibuja el <b>eyeball</b>, la <b>pupil</b>, el <b>eyelid</b> y las <b>eyelashes</b>.</p>`;
-  pad = drawingPad(() => { drew = true; check(); });
-  c.append(list, sub, pad.el, n);
-  return c;
-}
-
-function drawingPad(onDraw) {
-  const pad = document.createElement('div'); pad.className = 'pad';
-  const cv = document.createElement('canvas'); cv.setAttribute('aria-label', 'Hoja para dibujar');
-  const tools = document.createElement('div'); tools.className = 'tools';
-  const colors = ['#12302e', '#7a4a22', '#e0791f', '#0e8c8a', '#2b9a57', '#d14545'];
-  let color = colors[0], size = 6, drawing = false, last = null;
-  colors.forEach((col, i) => {
-    const s = document.createElement('button');
-    s.className = 'swatch' + (i === 0 ? ' on' : ''); s.style.background = col;
-    s.setAttribute('aria-label', 'Color ' + (i + 1));
-    s.addEventListener('click', () => { color = col; size = 6; tools.querySelectorAll('.swatch').forEach(x => x.classList.remove('on')); s.classList.add('on'); });
-    tools.appendChild(s);
-  });
-  const er = document.createElement('button'); er.className = 'tool'; er.textContent = 'Goma';
-  er.addEventListener('click', () => { color = 'erase'; size = 22; tools.querySelectorAll('.swatch').forEach(x => x.classList.remove('on')); });
-  const cl = document.createElement('button'); cl.className = 'tool'; cl.textContent = 'Borrar todo';
-  cl.addEventListener('click', () => { ctx.clearRect(0, 0, cv.width, cv.height); });
-  tools.append(er, cl);
-  pad.append(tools, cv);
-  const ctx = cv.getContext('2d');
-  function fit() {
-    const r = cv.getBoundingClientRect();
-    if (!r.width) return;
-    const dpr = window.devicePixelRatio || 1;
-    const img = cv.width ? ctx.getImageData(0, 0, cv.width, cv.height) : null;
-    cv.width = r.width * dpr; cv.height = r.height * dpr;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    if (img) ctx.putImageData(img, 0, 0);
-  }
-  function pt(e) { const r = cv.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
-  cv.addEventListener('pointerdown', e => { drawing = true; last = pt(e); try { cv.setPointerCapture(e.pointerId); } catch (x) {} dot(last); });
-  cv.addEventListener('pointermove', e => { if (!drawing) return; const p = pt(e); line(last, p); last = p; });
-  ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => cv.addEventListener(ev, () => { drawing = false; }));
-  function stroke() {
-    ctx.globalCompositeOperation = color === 'erase' ? 'destination-out' : 'source-over';
-    ctx.strokeStyle = ctx.fillStyle = color === 'erase' ? '#000' : color;
-    ctx.lineWidth = size; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-  }
-  function dot(p) { stroke(); ctx.beginPath(); ctx.arc(p.x, p.y, size / 2, 0, Math.PI * 2); ctx.fill(); onDraw(); }
-  function line(a, p) { stroke(); ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(p.x, p.y); ctx.stroke(); onDraw(); }
-  requestAnimationFrame(fit);
-  window.addEventListener('resize', fit);
-  return { el: pad, image: () => { try { return cv.toDataURL('image/png'); } catch (e) { return ''; } } };
-}
-
-/* ---- Finale ---- */
-function list(a) { return a.length < 2 ? a.join('') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1]; }
-function myEyesText() {
-  const s = [];
-  s.push(`I have ${me.n === '1' ? 'one eye' : me.n === '3' ? 'three eyes' : 'two eyes'}.`);
-  s.push(`My eyes are ${me.color}.`);
-  s.push(`They are ${me.size}.`);
-  s.push(`They are at the ${me.where} of my head.`);
-  s.push(me.dark === 'no' ? 'I can’t see in the dark.' : me.dark === 'a little' ? 'I can see a little in the dark.' : 'I can see in the dark.');
-  const pr = me.protect.map(x => x === 'sunglasses' ? 'sunglasses' : 'my ' + x);
-  s.push(`${list(pr).replace(/^./, ch => ch.toUpperCase())} protect my eyes.`);
-  return s;
-}
-function renderEnd() {
-  const c = document.createElement('section'); c.className = 'card';
-  const pct = stars / TOTAL;
-  const msg = pct >= .9 ? '¡Detective experta!' : pct >= .6 ? '¡Muy buen ojo!' : '¡Caso resuelto!';
-  const lines = myEyesText();
-  const keyItems = [];
-  MISSIONS.forEach((m, i) => {
-    let items;
-    if (m.pairs) items = m.pairs.map(p => `${p.a} → ${p.p}`);
-    else if (m.parts) items = ['Los números cambian de orden cada vez; revisa que cada palabra quede en su parte (pág. 6)'];
-    else items = m.qs.map(q => `${q.t.replace('___', q.o[q.a].toUpperCase())}`);
-    keyItems.push(`<li><b>Misión ${i + 1}</b><ul>${items.map(x => `<li>${x}</li>`).join('')}</ul></li>`);
-  });
-  c.innerHTML = `
-    <div class="badge">
-      <svg viewBox="0 0 160 160" aria-hidden="true">
-        <circle cx="80" cy="80" r="72" stroke-width="6" style="fill:var(--sea-soft);stroke:var(--sea)"/>
-        <path d="M30 80 Q80 36 130 80 Q80 124 30 80Z" stroke-width="4" style="fill:var(--sclera);stroke:var(--ink)"/>
-        <circle cx="80" cy="80" r="22" stroke-width="5" style="fill:var(--amber);stroke:var(--iris)"/>
-        <circle cx="80" cy="80" r="9" fill="#12302e"/>
-        <circle cx="86" cy="74" r="3.5" fill="#ffffff"/>
-      </svg>
-      <div class="m-tag">Caso cerrado</div>
-      <p class="big">${stars} / ${TOTAL}</p>
-      <h2>${msg}</h2>
-      <p class="how">Cada estrella es una respuesta correcta al primer intento.</p>
-    </div>
-    <div class="mine">
-      <div class="mine-head"><h3 class="h3">My Eyes</h3></div>
-      <div class="mine-body">
-        ${me.img ? `<img src="${me.img}" alt="Dibujo de mi ojo">` : ''}
-        <p>${lines.join(' ')}</p>
-      </div>
-    </div>
-    <details class="parents">
-      <summary>Respuestas (para papá o mamá)</summary>
-      <ol class="key">${keyItems.join('')}</ol>
-    </details>`;
-  const { n } = navBar(restart, true, 'Jugar otra vez');
-  n.querySelector('.go').classList.add('alt');
-  c.appendChild(n);
-  blink();
-  return c;
-}
-
-/* ---- Flow ---- */
-function render() {
-  drawTrack();
-  stage.innerHTML = '';
-  let card;
-  if (mi < MISSIONS.length) {
-    const m = MISSIONS[mi];
-    m.tag = `Misión ${mi + 1}`;
-    card = m.pairs ? renderMatch(m) : m.parts ? renderParts(m) : renderQs(m);
-  } else if (mi === MISSIONS.length) card = renderProject();
-  else card = renderEnd();
-  stage.appendChild(card);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-function next() { try { speechSynthesis.cancel(); } catch (e) {} mi++; render(); }
-function restart() {
-  mi = 0; stars = 0;
-  for (const k in firstTry) delete firstTry[k];
-  for (const k in solved) delete solved[k];
-  $('#starCount').textContent = 0;
-  render();
-}
-render();
+}, 3500);
 </script>
-
 </body>
 </html>
