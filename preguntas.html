@@ -163,7 +163,14 @@ canvas { width: 100%; max-width: 100%; aspect-ratio: 4 / 3; background: var(--sc
 .mine-body p { margin: 0; flex: 1; min-width: 200px; font-size: 1.15rem; line-height: 1.7; }
 .parents .key { columns: 1; }
 .parents .key > li { margin-top: 8px; }
-.parents .key ul { margin: 4px 0 0; padding-left: 18px; }
+.parents .key ul { margin: 4px 0 0; padding-left: 0; list-style: none; }
+.parents .key ul li { margin-top: 2px; }
+.parents .mark { font-weight: 700; color: var(--bad); }
+.parents .mark.ok { color: var(--good); }
+.parents .err { color: var(--ink); }
+.parents .tries { font-size: .8rem; font-weight: 600; color: var(--bad); white-space: nowrap; }
+.parents b + .tries { color: var(--muted); }
+.report-how { margin: 8px 0 0; }
 
 .pop { animation: pop .4s; }
 @keyframes shake { 0%,100% { transform: translateX(0) } 25% { transform: translateX(-6px) } 75% { transform: translateX(6px) } }
@@ -330,6 +337,7 @@ const TOTAL = MISSIONS.reduce((n, m) => n + (m.pairs || m.parts || m.qs).length,
 let mi = 0;
 let stars = 0;
 const firstTry = {};
+const misses = {};   // wrong attempts per question, for the parents report
 const solved = {};
 let me = {};
 
@@ -376,7 +384,7 @@ function award(key, el) {
   blink(); pupilMood(15);
   if (el) popEl(el);
 }
-function miss(key) { firstTry[key] = false; pupilMood(5); }
+function miss(key) { firstTry[key] = false; misses[key] = (misses[key] || 0) + 1; pupilMood(5); }
 function shake(el) { el.classList.remove('nope'); void el.offsetWidth; el.classList.add('nope'); }
 
 /* ---- Track ---- */
@@ -697,14 +705,27 @@ function renderEnd() {
   const pct = stars / TOTAL;
   const msg = pct >= .9 ? '¡Detective experta!' : pct >= .6 ? '¡Muy buen ojo!' : '¡Caso resuelto!';
   const lines = myEyesText();
+  // Parents report: every question with its answer, marked by how many wrong tries it took
   const keyItems = [];
+  let errTotal = 0, errQs = 0;
   MISSIONS.forEach((m, i) => {
     let items;
-    if (m.pairs) items = m.pairs.map(p => `${p.a} → ${p.p}`);
-    else if (m.parts) items = ['Los números cambian de orden cada vez; revisa que cada palabra quede en su parte (pág. 6)'];
-    else items = m.qs.map(q => `${q.t.replace('___', q.o[q.a].toUpperCase())}`);
-    keyItems.push(`<li><b>Misión ${i + 1}</b><ul>${items.map(x => `<li>${x}</li>`).join('')}</ul></li>`);
+    if (m.pairs) items = m.pairs.map((p, j) => ({ key: m.id + j, text: `${p.a} → ${p.p}`, page: p.page }));
+    else if (m.parts) items = m.parts.map(part => ({ key: 'parts' + part, text: part, page: m.page }));
+    else items = m.qs.map((q, j) => ({ key: m.id + j, text: q.t.includes('___') ? q.t.replace('___', q.o[q.a].toUpperCase()) : `${q.t} → ${q.o[q.a].toUpperCase()}`, page: q.page }));
+    const lis = items.map(it => {
+      const e = misses[it.key] || 0;
+      if (e) { errTotal += e; errQs++; }
+      return e
+        ? `<li class="err"><span class="mark">✗</span> ${it.text} <span class="tries">${e} ${e === 1 ? 'error' : 'errores'} · pág. ${it.page}</span></li>`
+        : `<li><span class="mark ok">✔</span> ${it.text}</li>`;
+    });
+    const firsts = items.length - items.filter(it => misses[it.key]).length;
+    keyItems.push(`<li><b>Misión ${i + 1} · ${m.title}</b> <span class="tries">${firsts}/${items.length} a la primera</span><ul>${lis.join('')}</ul></li>`);
   });
+  const errSummary = errTotal
+    ? `${errTotal} ${errTotal === 1 ? 'error' : 'errores'} en ${errQs} ${errQs === 1 ? 'pregunta' : 'preguntas'}`
+    : '¡todo a la primera!';
   c.innerHTML = `
     <div class="badge">
       <svg viewBox="0 0 160 160" aria-hidden="true">
@@ -727,7 +748,8 @@ function renderEnd() {
       </div>
     </div>
     <details class="parents">
-      <summary>Respuestas (para papá o mamá)</summary>
+      <summary>Para papá o mamá: ${errSummary}</summary>
+      <p class="report-how">✔ = correcta al primer intento. ✗ = se equivocó antes de acertar; muchos errores en una pregunta suelen indicar que probó opciones al azar en vez de buscar en el libro.</p>
       <ol class="key">${keyItems.join('')}</ol>
     </details>`;
   const { n } = navBar(restart, true, 'Jugar otra vez');
@@ -761,6 +783,7 @@ function next() { try { speechSynthesis.cancel(); } catch (e) {} mi++; render();
 function restart() {
   mi = 0; stars = 0;
   for (const k in firstTry) delete firstTry[k];
+  for (const k in misses) delete misses[k];
   for (const k in solved) delete solved[k];
   $('#starCount').textContent = 0;
   render();
