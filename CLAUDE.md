@@ -13,5 +13,6 @@ Este repo es un sitio estático: `index.html` (instrucciones + enlace al libro) 
 
 ## Reglas
 - No modificar `preguntas.html` salvo que el usuario lo pida.
+- Cada misión de `preguntas.html` muestra abajo un vocabulario (objeto `VOCAB`) con las palabras no cognadas; si se agrega o cambia una pregunta, actualizar su lista.
 - No agregar frameworks ni pasos de build.
 - Para cambios futuros: editar los `.html`, commit y push; Vercel redeploya solo si el repo está conectado.

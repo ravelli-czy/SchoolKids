@@ -133,6 +133,13 @@ canvas { width: 100%; max-width: 100%; aspect-ratio: 4 / 3; background: var(--sc
 .parents { font-size: .9rem; color: var(--muted); border-top: 2px dashed var(--line); padding-top: 14px; }
 .parents summary { cursor: pointer; font-weight: 600; color: var(--ink); }
 .parents ol { margin: 8px 0 0; padding-left: 22px; columns: 2; column-gap: 28px; }
+.vocab { border-top: 2px dashed var(--line); padding-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.vocab-title { font-family: var(--display); font-weight: 800; font-size: 1.25rem; margin: 0; color: var(--sea); }
+.vocab dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+.vocab dl > div { background: var(--bg); border-radius: 12px; padding: 6px 12px; line-height: 1.35; }
+.vocab dt { font-weight: 600; }
+.vocab dd { margin: 0; color: var(--muted); }
+.vocab .how { font-size: .9rem; }
 
 .opt.sel { border-color: var(--iris); box-shadow: 0 0 0 3px var(--amber) inset; }
 .opt.pickable[aria-pressed="true"] { background: var(--sea); border-color: var(--sea); color: var(--paper); }
@@ -251,6 +258,67 @@ const MISSIONS = [
       { a: 'Camels', p: 'Long eyelashes', page: 18 },
     ] },
 ];
+/* Glossary shown under each card: English words that are not cognates, with their Spanish meaning */
+const VOCAB = {
+  match: [
+    ['eyes', 'ojos'], ['see / sees', 'ver / ve'], ['well', 'bien'], ['night', 'noche'],
+    ['fly', 'mosca'], ['long', 'largo'], ['stalk', 'tallo, palito'], ['fish', 'pez'],
+    ['flat', 'plano'], ['flashlight', 'linterna'], ['two', 'dos'], ['one', 'uno'],
+    ['side', 'lado'], ['body', 'cuerpo'], ['has', 'tiene'], ['lights', 'luces'], ['under', 'debajo de'],
+  ],
+  parts: [],
+  tf: [
+    ['true', 'verdadero'], ['false', 'falso'], ['fish', 'peces'], ['close', 'cierran'],
+    ['long', 'largas'], ['eyelashes', 'pestañas'], ['sand', 'arena'], ['doesn’t go in', 'no entra'],
+    ['some', 'algunas'], ['spiders', 'arañas'], ['eight', 'ocho'], ['people', 'personas'],
+    ['cry', 'lloran'], ['tears', 'lágrimas'], ['when', 'cuando'], ['sad', 'tristes'],
+  ],
+  pick: [
+    ['when', 'cuando'], ['there’s no light', 'no hay luz'], ['little', 'pequeño'], ['big', 'grande'],
+    ['hawk', 'halcón'], ['front', 'frente, adelante'], ['sides', 'lados'], ['head', 'cabeza'],
+    ['hammerhead shark', 'tiburón martillo'], ['meerkat', 'suricata'], ['black', 'negro'],
+    ['fur', 'pelaje'], ['around', 'alrededor de'], ['sunny', 'soleado'], ['dark', 'oscuro'],
+  ],
+  animals: [
+    ['crab', 'cangrejo'], ['top', 'arriba'], ['bottom', 'abajo'], ['body', 'cuerpo'],
+    ['seal', 'foca'], ['lives', 'vive'], ['land', 'tierra'], ['water', 'agua'], ['trees', 'árboles'],
+    ['hunts', 'caza'], ['to eat', 'para comer'], ['can / can’t', 'puede / no puede'],
+    ['all around', 'todo alrededor'], ['each', 'cada'], ['dragonfly', 'libélula'],
+    ['thousands', 'miles'], ['little', 'pequeños'], ['together', 'juntos'],
+    ['scallop', 'ostión, vieira'], ['more than', 'más de'],
+  ],
+  protect: [
+    ['how', 'cómo'], ['their', 'sus'], ['people', 'personas'], ['sunglasses', 'lentes de sol'],
+    ['meerkats', 'suricatas'], ['black', 'negro'], ['fur', 'pelaje'], ['around', 'alrededor de'],
+    ['long', 'largas'], ['eyelashes', 'pestañas'],
+  ],
+  project: [
+    ['how many', 'cuántos'], ['do you have', 'tienes'], ['what color', 'de qué color'], ['your', 'tus'],
+    ['brown', 'café'], ['black', 'negro'], ['blue', 'azul'], ['green', 'verde'], ['gray', 'gris'],
+    ['big', 'grandes'], ['little', 'pequeños'], ['front', 'adelante'], ['sides', 'lados'],
+    ['can you see', '¿puedes ver?'], ['dark', 'oscuridad'], ['yes', 'sí'], ['a little', 'un poco'],
+    ['eyelids', 'párpados'], ['eyelashes', 'pestañas'], ['tears', 'lágrimas'],
+    ['sunglasses', 'lentes de sol'], ['draw', 'dibuja'],
+  ],
+  end: [
+    ['I have', 'tengo'], ['my', 'mi, mis'], ['they are', 'son, están'], ['head', 'cabeza'],
+    ['I can see', 'puedo ver'], ['I can’t see', 'no puedo ver'], ['in the dark', 'en la oscuridad'],
+    ['protect', 'protegen'],
+  ],
+};
+const VOCAB_NOTE = {
+  parts: 'En esta misión las palabras son la pregunta, así que no las traducimos. Búscalas en la página 6 del libro.',
+};
+function vocabBox(id) {
+  const words = VOCAB[id] || [];
+  const box = document.createElement('section');
+  box.className = 'vocab';
+  box.setAttribute('aria-label', 'Vocabulario');
+  box.innerHTML = `<h3 class="vocab-title">📖 Vocabulario</h3>` +
+    (VOCAB_NOTE[id] ? `<p class="how">${VOCAB_NOTE[id]}</p>` : '') +
+    (words.length ? `<dl>${words.map(([en, es]) => `<div><dt>${en}</dt><dd>${es}</dd></div>`).join('')}</dl>` : '');
+  return box;
+}
 const TOTAL = MISSIONS.reduce((n, m) => n + (m.pairs || m.parts || m.qs).length, 0);
 
 let mi = 0;
@@ -672,8 +740,14 @@ function render() {
     const m = MISSIONS[mi];
     m.tag = `Misión ${mi + 1}`;
     card = m.pairs ? renderMatch(m) : m.parts ? renderParts(m) : renderQs(m);
-  } else if (mi === MISSIONS.length) card = renderProject();
-  else card = renderEnd();
+    card.appendChild(vocabBox(m.id));
+  } else if (mi === MISSIONS.length) {
+    card = renderProject();
+    card.appendChild(vocabBox('project'));
+  } else {
+    card = renderEnd();
+    card.appendChild(vocabBox('end'));
+  }
   stage.appendChild(card);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
