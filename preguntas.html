@@ -58,7 +58,11 @@ body {
 .wrap { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
 
 header { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
-.eye { width: 112px; height: 72px; flex: none; }
+.eye { width: 112px; height: 72px; flex: none; display: block; }
+.home { flex: none; display: block; border-radius: 16px; }
+.home:hover .eye { transform: scale(1.06); }
+.home:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+.eye { transition: transform .15s; }
 .eye .lid { transform-origin: 50% 50%; transition: transform .12s ease-in; }
 .eye.blink .lid { transform: scaleY(1); }
 .brand { min-width: 0; flex: 1; }
@@ -180,6 +184,7 @@ canvas { width: 100%; max-width: 100%; aspect-ratio: 4 / 3; background: var(--sc
 <body>
 <div class="wrap">
   <header>
+    <a class="home" href="index.html" aria-label="Volver a las instrucciones" title="Volver a las instrucciones">
     <svg class="eye" id="eye" viewBox="0 0 140 90" aria-hidden="true">
       <path d="M6 45 Q70 -8 134 45 Q70 98 6 45 Z" stroke-width="4" style="fill:var(--sclera);stroke:var(--ink)"/>
       <clipPath id="eyeclip"><path d="M8 45 Q70 -6 132 45 Q70 96 8 45 Z"/></clipPath>
@@ -193,6 +198,7 @@ canvas { width: 100%; max-width: 100%; aspect-ratio: 4 / 3; background: var(--sc
         <rect class="lid" x="0" y="0" width="140" height="90" style="fill:var(--sea);transform: scaleY(0)"/>
       </g>
     </svg>
+    </a>
     <div class="brand">
       <h1>Eye Detective</h1>
       <p class="sub">Basado en <i>Eyes</i> · Oxford Read and Discover 1</p>
